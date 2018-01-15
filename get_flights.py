@@ -3,17 +3,17 @@ import urllib2
 import re
 import sys
 from datetime import datetime as date
+import argparse
 
-
-if len(sys.argv) > 1:
-    show_all= True
-else:
-    show_all = False
-    
+parser = argparse.ArgumentParser(description='Fetch flights info for Airports')
+parser.add_argument('--all', dest='show_all', action='store_true',default=False, help='List all flights, skip filtering')
+parser.add_argument('--airports', dest='airports', default=['CYUL'], help='List of airports to fetch flights from, space separated', nargs='+')
+args = parser.parse_args()
+show_all=args.show_all
+airports=args.airports
 current_day=date.today().strftime("%a")
 fa_base_url='http://flightaware.com/live/airport/'
 fa_phases=[['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"],['DEPARTURE',"/scheduled?;offset=%s;order=filed_departuretime;sort=ASC"]]
-airports=['CYUL','CYMX']
 planes=['B748','B744','B742','A340','A343','A345','A380','B77W','A333','MD11']
 liveries=['RAM','RJA','UAE','KLM','BAW','DLH','DAH','DLX','SWR','RZO','CUB']
 
@@ -29,6 +29,7 @@ for airport in airports:
             flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
             flights_rows = flights.find_all('tr')
             for flight_row in flights_rows:
+                liverie=None
                 if not flight_row.find_all('th'):
                     flight_info = flight_row.find_all('td')
                     try:
