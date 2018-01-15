@@ -2,6 +2,20 @@
 python version of the perl get_flights
 
 ```
+python get_flights.py -h
+usage: get_flights.py [-h] [--all] [--airports AIRPORTS [AIRPORTS ...]]
+
+Fetch flights info for Airports
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --all                 List all flights, skip filtering
+  --airports AIRPORTS [AIRPORTS ...]
+                        List of airports to fetch flights from, space
+                        separated
+                        
+                        
+                        
 get_fligths.py
 CYUL
 ARRIVALS
