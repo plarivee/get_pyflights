@@ -17,6 +17,14 @@ fa_phases=[['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"
 planes=['B748','B744','B742','A340','A343','A345','A380','B77W','A333','MD11']
 liveries=['RAM','RJA','UAE','KLM','BAW','DLH','DAH','DLX','SWR','RZO','CUB']
 
+
+
+def print_flights(fa_phase,flight_info):
+    if fa_phase == "ARRIVALS":
+        print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[5].get_text()
+    else:
+        print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[3].get_text()
+
 for airport in airports:
     print airport
     for fa_phase in fa_phases:
@@ -37,15 +45,9 @@ for airport in airports:
                     except:
                         pass
                     if show_all:
-                        if fa_phase == "ARRIVALS":
-                            print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[5].get_text()
-                        else:
-                            print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[3].get_text()
+                        print_flights(fa_phase[0],flight_info)
                     elif flight_info[1].get_text() in planes or liverie in liveries:
-                        if fa_phase == "ARRIVALS":
-                            print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[5].get_text()
-                        else:
-                            print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[3].get_text()
+                        print_flights(fa_phase[0],flight_info)
                     if not re.search(r"^%s\s" % current_day, flight_info[3].get_text()):
                         is_current_day= False
             fa_offset += 20
