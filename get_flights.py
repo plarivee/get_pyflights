@@ -11,19 +11,24 @@ parser.add_argument('--airports', dest='airports', default=['CYUL'], help='List 
 args = parser.parse_args()
 show_all=args.show_all
 airports=args.airports
+
 current_day=date.today().strftime("%a")
 fa_base_url='http://flightaware.com/live/airport/'
-fa_phases=[['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"],['DEPARTURE',"/scheduled?;offset=%s;order=filed_departuretime;sort=ASC"]]
+fa_phases= [['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"],
+        ['DEPARTURE',"/scheduled?;offset=%s;order=filed_departuretime;sort=ASC"]]
 planes=['B748','B744','B742','A340','A343','A345','A380','B77W','A333','MD11']
 liveries=['RAM','RJA','UAE','KLM','BAW','DLH','DAH','DLX','SWR','RZO','CUB']
 
-
-
 def print_flights(fa_phase,flight_info):
+    flight_number = flight_info[0].get_text().encode('utf-8').strip()
+    plane_type = flight_info[1].get_text().encode('utf-8')
+
     if fa_phase == "ARRIVALS":
-        print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[5].get_text()
+        date = flight_info[5].get_text().encode('utf-8')
     else:
-        print flight_info[0].get_text().strip() + "\t" + flight_info[1].get_text() + "\t"  + flight_info[3].get_text()
+        date = flight_info[3].get_text().encode('utf-8')
+
+    print "\t".join([flight_number, plane_type, date])
 
 for airport in airports:
     print airport
