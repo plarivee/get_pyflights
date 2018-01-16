@@ -12,6 +12,7 @@ args = parser.parse_args()
 show_all=args.show_all
 airports=args.airports
 
+
 current_day=date.today().strftime("%a")
 fa_base_url='http://flightaware.com/live/airport/'
 fa_phases= [['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"],
@@ -30,29 +31,35 @@ def print_flights(fa_phase,flight_info):
 
     print "\t".join([flight_number, plane_type, date])
 
-for airport in airports:
-    print airport
-    for fa_phase in fa_phases:
-        fa_offset=0
-        is_current_day= True
-        print fa_phase[0]
-        print "\t".join(["FLIGHT","TYPE","TIME"])
-        while is_current_day:
-            fetch_url=fa_base_url + airport + fa_phase[1] %fa_offset
-            flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
-            flights_rows = flights.find_all('tr')
-            for flight_row in flights_rows:
-                liverie=None
-                if not flight_row.find_all('th'):
-                    flight_info = flight_row.find_all('td')
-                    try:
-                        liverie= re.search(r'^(\w{3})', flight_info[0].get_text().strip()).group(1)
-                    except:
-                        pass
-                    if show_all:
-                        print_flights(fa_phase[0],flight_info)
-                    elif flight_info[1].get_text() in planes or liverie in liveries:
-                        print_flights(fa_phase[0],flight_info)
-                    if not re.search(r"^%s\s" % current_day, flight_info[3].get_text()):
-                        is_current_day= False
-            fa_offset += 20
+def fetch_page_data(offset, airport, phase):
+    fetch_url=fa_base_url + airport + phase %offset
+    flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
+    return flights.find_all('tr')
+
+def show_flights():
+    for airport in airports:
+        print airport
+        for fa_phase in fa_phases:
+            fa_offset=0
+            is_current_day= True
+            print fa_phase[0]
+            print "\t".join(["FLIGHT","TYPE","TIME"])
+            while is_current_day:
+                flights_rows = fetch_page_data(fa_offset,airport,fa_phase[1])
+                for flight_row in flights_rows:
+                    liverie=None
+                    if not flight_row.find_all('th'):
+                        flight_info = flight_row.find_all('td')
+                        try:
+                            liverie= re.search(r'^(\w{3})', flight_info[0].get_text().strip()).group(1)
+                        except:
+                            pass
+                        if show_all:
+                            print_flights(fa_phase[0],flight_info)
+                        elif flight_info[1].get_text() in planes or liverie in liveries:
+                            print_flights(fa_phase[0],flight_info)
+                        if not re.search(r"^%s\s" % current_day, flight_info[3].get_text()):
+                            is_current_day= False
+                fa_offset += 20
+
+show_flights()
