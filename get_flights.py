@@ -36,6 +36,24 @@ def fetch_page_data(offset, airport, phase):
     flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
     return flights.find_all('tr')
 
+def check_plane(plane_type):
+    if plane_type in planes:
+        return True
+    else:
+        return False
+
+def check_liverie(liverie_name):
+    if liverie_name in liveries:
+        return True
+    else:
+        return False
+
+def check_still_current_day(current_date):
+    if re.search(r"^%s\s" % current_day, current_date):
+        return True
+    else:
+        return False
+
 def show_flights():
     for airport in airports:
         print airport
@@ -56,10 +74,9 @@ def show_flights():
                             pass
                         if show_all:
                             print_flights(fa_phase[0],flight_info)
-                        elif flight_info[1].get_text() in planes or liverie in liveries:
+                        elif check_plane(flight_info[1].get_text()) or check_liverie(liverie):
                             print_flights(fa_phase[0],flight_info)
-                        if not re.search(r"^%s\s" % current_day, flight_info[3].get_text()):
-                            is_current_day= False
+                        is_current_day = check_still_current_day(flight_info[3].get_text())
                 fa_offset += 20
 
 show_flights()
