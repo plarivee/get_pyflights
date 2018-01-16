@@ -1,6 +1,8 @@
 # get_pyflights
 python version of the perl get_flights
 
+It gets the flights from flightware. It's easier to scrape than fr24 when using free version. 
+
 ```
 python get_flights.py -h
 usage: get_flights.py [-h] [--all] [--airports AIRPORTS [AIRPORTS ...]]
