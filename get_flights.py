@@ -12,14 +12,16 @@ with open("config.yml", 'r') as ymlfile:
 planes= cfg['planes']
 liveries= cfg['liveries']
 
-fa_page_cache = pyfscache.FSCache('/tmp',minutes=5)
 
 parser = argparse.ArgumentParser(description='Fetch flights info for Airports')
 parser.add_argument('--all', dest='show_all', action='store_true',default=False, help='List all flights, skip filtering')
 parser.add_argument('--airports', dest='airports', default=['CYUL'], help='List of airports to fetch flights from, space separated', nargs='+')
+parser.add_argument('--cache-timeout', dest='cache_timeout', default=5, help='cache info for this amount of minutes',type=int)
 args = parser.parse_args()
 show_all=args.show_all
 airports=args.airports
+fa_page_cache_timeout= args.cache_timeout
+fa_page_cache = pyfscache.FSCache('/tmp/get_flights',minutes=fa_page_cache_timeout)
 
 current_day=date.today().strftime("%a")
 fa_base_url='http://flightaware.com/live/airport/'
