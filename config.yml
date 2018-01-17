@@ -1,0 +1,25 @@
+---
+planes:
+  - 'B748'
+  - 'B744'
+  - 'B742'
+  - 'A340'
+  - 'A343'
+  - 'A345'
+  - 'A380'
+  - 'B77W'
+  - 'A333'
+  - 'MD11'
+
+liveries:
+  - 'RAM'
+  - 'RJA'
+  - 'UAE'
+  - 'KLM'
+  - 'BAW'
+  - 'DLH'
+  - 'DAH'
+  - 'DLX'
+  - 'SWR'
+  - 'RZO'
+  - 'CUB'
