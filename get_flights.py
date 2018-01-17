@@ -4,6 +4,10 @@ import re
 import sys
 from datetime import datetime as date
 import argparse
+import pyfscache
+
+fa_page_cache = pyfscache.FSCache('/tmp',minutes=5)
+
 
 parser = argparse.ArgumentParser(description='Fetch flights info for Airports')
 parser.add_argument('--all', dest='show_all', action='store_true',default=False, help='List all flights, skip filtering')
@@ -31,6 +35,7 @@ def print_flights(fa_phase,flight_info):
 
     print "\t".join([flight_number, plane_type, date])
 
+@fa_page_cache
 def fetch_page_data(offset, airport, phase):
     fetch_url=fa_base_url + airport + phase %offset
     flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
