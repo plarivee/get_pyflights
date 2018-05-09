@@ -69,7 +69,7 @@ def show_flights():
         for fa_phase in fa_phases:
             fa_offset=0
             is_current_day= True
-            print fa_phase[0]
+            print "\n" + fa_phase[0] + "\n"
             print "\t".join(["FLIGHT","TYPE","TIME"])
             while is_current_day:
                 flights_rows = fetch_page_data(fa_offset,airport,fa_phase[1])
