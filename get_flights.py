@@ -14,9 +14,12 @@ liveries= cfg['liveries']
 
 
 parser = argparse.ArgumentParser(description='Fetch flights info for Airports')
-parser.add_argument('--all', dest='show_all', action='store_true',default=False, help='List all flights, skip filtering')
-parser.add_argument('--airports', dest='airports', default=['CYUL'], help='List of airports to fetch flights from, space separated', nargs='+')
-parser.add_argument('--cache-timeout', dest='cache_timeout', default=5, help='cache info for this amount of minutes',type=int)
+parser.add_argument('--all', dest='show_all', action='store_true',default=False, 
+	help='List all flights, skip filtering')
+parser.add_argument('--airports', dest='airports', default=['CYUL'], 
+	help='List of airports to fetch flights from, space separated', nargs='+')
+parser.add_argument('--cache-timeout', dest='cache_timeout', default=5, 
+	help='cache info for this amount of minutes',type=int)
 args = parser.parse_args()
 show_all=args.show_all
 airports=args.airports
@@ -39,23 +42,30 @@ def print_flights(fa_phase,flight_info):
 
     print "\t".join([flight_number, plane_type, date])
 
-@fa_page_cache
+#@fa_page_cache
 def fetch_page_data(offset, airport, phase):
     fetch_url=fa_base_url + airport + phase %offset
     flights = BeautifulSoup(urllib2.urlopen(fetch_url), 'html.parser').find('table', attrs={'class': 'prettyTable fullWidth'})
     return flights.find_all('tr')
 
 def check_plane(plane_type):
+    try:
+	short_plane_type = re.search(r'^(\w{3})', plane_type).group(1)
+    except:
+	short_plane_type = plane_type
+
     if plane_type in planes:
         return True
+    elif short_plane_type in planes:
+	return True
     else:
         return False
 
 def check_liverie(liverie_name):
     if liverie_name in liveries:
-        return True
+        return False 
     else:
-        return False
+        return True
 
 def check_still_current_day(current_date):
     if re.search(r"^%s\s" % current_day, current_date):
