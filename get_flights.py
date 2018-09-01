@@ -77,6 +77,7 @@ def show_flights():
     for airport in airports:
         print airport
         for fa_phase in fa_phases:
+	    skipped = 0
             fa_offset=0
             is_current_day= True
             print "\n" + fa_phase[0] + "\n"
@@ -95,7 +96,9 @@ def show_flights():
                             print_flights(fa_phase[0],flight_info)
                         elif check_plane(flight_info[1].get_text()) or check_liverie(liverie):
                             print_flights(fa_phase[0],flight_info)
+			else:
+			    skipped += 1
                         is_current_day = check_still_current_day(flight_info[3].get_text())
                 fa_offset += 20
-
+	    print("%s flights were filtered out\n" % skipped)  
 show_flights()
