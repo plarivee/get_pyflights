@@ -17,7 +17,6 @@ optional arguments:
                         separated
                         
                         
-```
 python get_flights.py --airport CYUL
 CYUL
 
