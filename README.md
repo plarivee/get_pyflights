@@ -17,41 +17,31 @@ optional arguments:
                         separated
                         
                         
-                        
-get_fligths.py
+```
+python get_flights.py --airport CYUL
 CYUL
+
 ARRIVALS
-FLIGHT	TYPE	TIME
-ACA875	A333	Mon 10:30AM�CET
-RJA268	B788	Mon 01:15PM�EST
-AFR344	B77W	Mon 01:45PM�CET
-ACA871	B77W	Mon 01:05PM�CET
-ACA865	A333	Mon 01:00PM�GMT
-ACA835	A333	Mon 12:00PM�CET
-CUB164	A320	Mon 01:05PM�CST
-KLM671	A332	Mon 03:20PM�CET
-ACA420	A333	Mon 05:00PM�EST
-DLH474	A333	Mon 03:10PM�CET
-CUB178	A320	Mon 03:10PM�CST
-TSC561	A333	Mon 03:15PM�EST
-ACA302	A333	Mon 11:30AM�PST
-RAM208	B788	Mon 05:30PM�WET
-BAW95	B788	Mon 04:45PM�GMT
-AFR342	B77W	Mon 06:10PM�CET
-TSC187	A333	Mon 05:15PM�AST
-DEPARTURE
-FLIGHT	TYPE	TIME
-RJA268	B788	Mon 03:55PM�EST
-ACA835	A333	Mon 04:00PM�EST
-ACA874	A333	Mon 05:20PM�EST
-KLM672	A332	Mon 07:01PM�EST
-DLH475	A333	Mon 07:30PM�EST
-ACA864	A333	Mon 07:55PM�EST
-ACA870	B77W	Mon 08:00PM�EST
-BAW94	B788	Mon 08:55PM�EST
-RAM209	B788	Mon 09:45PM�EST
-CYMX
-ARRIVALS
-FLIGHT	TYPE	TIME
-DEPARTURE
-FLIGHT	TYPE	TIME
+
+FLIGHT	TYPE	MANUFACTURER        	NAME                     	TIME
+CLH478	A343	AIRBUS              	A-340-300 Prestige       	Tue 04:08PMEDT
+EGF3940	E135	EMBRAER             	ERJ-135                  	Tue 04:11PMEDT
+AAL3940	E145	EMBRAER             	C-99                     	Tue 04:11PMEDT
+CDR627	CL60	BOMBARDIER          	CL-600 Challenger 650    	Tue 04:12PMEDT
+PDT4845	E145	EMBRAER             	C-99                     	Tue 04:24PMEDT
+DAH2700	A332	AIRBUS              	A-330-200 Voyager        	Tue 04:30PMEDT
+ASQ3986	E45X	EMBRAER             	ERJ-145XR                	Tue 04:35PMEDT
+FAB865	B732	BOEING              	737-200                  	Tue 04:36PMEDT
+SKW3126	CRJ2	CANADAIR            	Challenger 800           	Tue 04:36PMEDT
+ACA314	B788	BOEING              	787-8 Dreamliner         	Tue 04:38PMEDT
+KLM671	A332	AIRBUS              	A-330-200 Voyager        	Tue 04:46PMEDT
+ACA778	B38M	BOEING              	737 MAX 8                	Tue 04:49PMEDT
+ACA865	B77W	BOEING              	777-300ER                	Tue 05:11PMEDT
+ASP816	E545	EMBRAER             	EMB-545 Legacy 450       	Tue 05:14PMEDT
+N595TM	BE9L	BEECH               	90 (A90) King Air        	Tue 05:16PMEDT
+N96UJ	FA50	DASSAULT            	Mystère 50                     Tue 05:19PEDT
+ASQ4400	E145	EMBRAER             	C-99                     	Tue 05:22PMEDT
+N62MV	GLF3	GULFSTREAM AEROSPACE	C-20A Gulfstream 3       	Tue 05:33PMEDT
+THY35	A333	AIRBUS              	A-330-300                	Tue 05:41PMEDT
+```
+                        

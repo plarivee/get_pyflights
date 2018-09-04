@@ -6,8 +6,10 @@ planes:
   - 'B38'
   - 'A38'
   - 'B77'
-  - 'A33'
   - 'MD11'
+
+exclude_planes:
+  - 'CRJ'
 
 liveries:
   - 'ACA'
