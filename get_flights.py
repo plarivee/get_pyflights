@@ -36,7 +36,7 @@ fa_base_url='http://flightaware.com/live/airport/'
 fa_phases= [['ARRIVALS',"/enroute?;offset=%s;order=estimatedarrivaltime;sort=ASC"],
         ['DEPARTURE',"/scheduled?;offset=%s;order=filed_departuretime;sort=ASC"]]
 
-def print_flights(fa_phase,flight_info,hl):
+def print_flights(fa_phase,flight_info,trigger):
     flight_number = flight_info[0].get_text().encode('utf-8').strip()
     plane_type    = flight_info[1].get_text().encode('utf-8')
     plane_name    = None
@@ -49,11 +49,12 @@ def print_flights(fa_phase,flight_info,hl):
     if not plane_name:
 	plane_name = "".ljust(20,' ') + "\t" + "".ljust(25,' ')
 
-    if hl == 'fl':
+    if trigger['liverie']:
 	flight_number = '\033[92m' + flight_number + '\033[0m'
-    elif hl == 'plane':
+    if trigger['plane']:
 	plane_type = '\033[1m\033[92m' + plane_type + '\033[0m'    
-
+    if trigger['excluded']:
+        plane_type = '\033[1m\033[91m' + plane_type + '\033[0m'
     if fa_phase == "ARRIVALS":
         date = flight_info[5].get_text().encode('utf-8')
     else:
@@ -68,8 +69,8 @@ def fetch_page_data(offset, airport, phase):
     return flights.find_all('tr')
 
 def check_plane(plane_type,liverie_name):
-    checked = False
-    trigger = 'none'
+    checked  = False
+    trigger = {"plane" : False, "liverie": False, "excluded": False }
     try:
 	short_plane_type = re.search(r'^(\w{3})', plane_type).group(1)
     except:
@@ -77,15 +78,16 @@ def check_plane(plane_type,liverie_name):
 
     if plane_type in planes:
          checked = True
-	 trigger = 'plane'
+	 trigger['plane'] = True
     if short_plane_type in planes:
 	 checked = True
-         trigger = 'plane'
+         trigger['plane'] = True
     if plane_type in exclude_planes: 
          checked = False
+         trigger['excluded'] = True
     if liverie_name not in liveries:
          checked = True
-         trigger = 'fl'
+         trigger['liverie'] = True
     return checked,trigger
 
 def check_still_current_day(current_date):
@@ -107,6 +109,7 @@ def show_flights():
                 flights_rows = fetch_page_data(fa_offset,airport,fa_phase[1])
                 for flight_row in flights_rows:
                     liverie=None
+	            trigger = {"plane" : False, "liverie": False, "excluded": False }
                     if not flight_row.find_all('th'):
                         flight_info = flight_row.find_all('td')
                         try:
@@ -114,7 +117,7 @@ def show_flights():
                         except:
                             pass
                         if show_all:
-                            print_flights(fa_phase[0],flight_info,'none')
+                            print_flights(fa_phase[0],flight_info,trigger)
                         else:
 			    is_checked,trigger = check_plane(flight_info[1].get_text(),liverie)
                             if is_checked:
